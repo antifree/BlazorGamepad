@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
@@ -22,7 +22,7 @@
     </StaticWebAsset>
   </ItemGroup>
 
-  <Target Condition="$(Configuration)'=='Debug'"  Name="PreBuild" BeforeTargets="PreBuildEvent" >
+  <Target Condition=" '$(Configuration)'=='Debug' "  Name="PreBuild" BeforeTargets="PreBuildEvent" >
     <Exec Command="npm run build-all" />
   </Target>
   
