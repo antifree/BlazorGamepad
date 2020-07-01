@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)'=='Debug' ">
     <StaticWebAsset Include="wwwroot\**">
       <SourceType></SourceType>
       <SourceId>Antifree.Blazor.GamepadAPI</SourceId>
