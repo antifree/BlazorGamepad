@@ -1,0 +1,79 @@
+﻿@page "/gamepad-tester"
+@using Antifree.Blazor.GamepadAPI;
+@implements IDisposable
+@inject IJSRuntime JSRuntime
+@inject GamepadManagerResolver GamepadManagerResolver
+
+@if (_gamepads.Length > 0)
+{
+    <h3>Gamepads: </h3>
+    @foreach (var gamepad in _gamepads)
+    {
+        <BlazorGamepad.Components.GamepadItem Gamepad="gamepad" OnTestVibration="TestVibration" />
+    }
+}
+else
+{
+    <h3>No gamepad is found. Connect the device and press any button</h3>
+}
+
+@code {
+
+    private GamepadManager _manager;
+    private Gamepad[] _gamepads = new Gamepad[] {};
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _manager = await GamepadManagerResolver.ResolveAsync();
+
+            _manager.OnUpdate += UpdateListener;
+
+            _manager.OnGamepadConnected += ConnectListenter;
+
+            _manager.OnGamepadDisconnected += DisconnectListener;
+        }
+    }
+
+    private async void TestVibration(long gamepadIndex)
+    {
+        await _manager.PlayVibrationEffectAsync(gamepadIndex, "dual-rumble");
+    }
+
+    private async void ConnectListenter(GamepadEvent ev)
+    {
+        await JSRuntime.InvokeVoidAsync("alert", "Gamepad connected: " + ev.Gamepad.Id);
+    }
+
+    private async void DisconnectListener(GamepadEvent ev)
+    {
+        await JSRuntime.InvokeVoidAsync("alert", "Gamepad disconnected: " + ev.Gamepad.Id);
+    }
+
+    private async void UpdateListener()
+    {
+        _gamepads = _manager.GetGamepads();
+        await this.InvokeAsync(() => this.StateHasChanged());
+    }
+
+    private bool _disposed = false;
+
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            _disposed = true;
+
+            if (_manager != null)
+            {
+                _manager.OnUpdate -= UpdateListener;
+
+                _manager.OnGamepadConnected -= ConnectListenter;
+
+                _manager.OnGamepadDisconnected -= DisconnectListener;
+            }
+        }
+    }
+
+}

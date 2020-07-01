@@ -1,0 +1,22 @@
+{
+  "name": "mainpagescripts",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "watch": "webpack --mode=development --watch",
+    "dev": "webpack --mode=development",
+    "build-all": "npm install && webpack --mode=development"
+  },
+  "devDependencies": {
+    "require": "^2.4.20",
+    "onchange": "^5.2.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.3",
+    "webpack": "^4.36.1",
+    "webpack-cli": "^3.3.6",
+    "es6-promise": "^4.2.6"
+  }
+}

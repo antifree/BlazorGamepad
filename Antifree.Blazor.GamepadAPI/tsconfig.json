@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2015", 
+    "module": "none", 
+    "sourceMap": false,
+    "removeComments": true,
+    "strict": true,
+    "esModuleInterop": true 
+    
+  },
+  "compileOnSave": true
+}

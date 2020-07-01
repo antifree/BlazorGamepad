@@ -1,0 +1,52 @@
+﻿@using Antifree.Blazor.GamepadAPI
+<h4>@Gamepad.Id</h4>
+<br>
+ Index: @Gamepad.Index     Mapping: @(Gamepad.Mapping ?? "n/a")    Timestamp: @Gamepad.Timestamp.ToString("N2")
+<br>
+<br>
+Supports vibration: @(Gamepad.SupportVibration ? "YES" : "NO") 
+
+@if (Gamepad.SupportVibration)
+{
+   
+        @: (
+        <button class="btn btn-link btn-sm"
+                @onclick="@(e => OnTestVibration.InvokeAsync(Gamepad.Index))">
+            Test
+        </button>
+        @: )
+}
+<br>
+<br>
+@for (var i = 0; i < Gamepad.Axes.Count; i++)
+{
+    @: AXIS @i: @Gamepad.Axes[i].ToString("N5")  
+}
+<br>
+<br>
+<BlazorGamepad.Components.AxesCircle X="Gamepad.Axes[0]" Y="Gamepad.Axes[1]" />
+<BlazorGamepad.Components.AxesCircle X="Gamepad.Axes[2]" Y="Gamepad.Axes[3]" />
+
+<br>
+
+   Buttons:
+<ul class="gamepad-buttons-list">
+    @for (var i = 0; i < Gamepad.Buttons.Count; i++)
+    {
+        <li>
+            @("B" + i):
+            <span class="@(Gamepad.Buttons[i].Pressed ? "pressed" : "")">
+                @Gamepad.Buttons[i].Value.ToString("N1")
+            </span>
+        </li>
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public Gamepad Gamepad { get; set; }
+
+    [Parameter]
+    public EventCallback<long> OnTestVibration { get; set; }
+}
+

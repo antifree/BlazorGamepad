@@ -1,0 +1,18 @@
+﻿<div class="axes-circle">
+    <div class="x-axis"></div>
+    <div class="y-axis"></div>
+    <div class="circle-outline"></div>
+    <div class="joystick-position" style="top: @Top%; left: @Left%"></div>
+</div>
+
+@code {
+    [Parameter]
+    public double X { get; set; }
+
+    [Parameter]
+    public double Y { get; set; }
+
+    private string Top => (Y * 50 + 50).ToString("N4");
+
+    private string Left => (X * 50 + 50).ToString("N4");
+}
